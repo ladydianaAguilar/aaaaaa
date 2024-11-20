@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>a<3</title>
+
+    <!-- Cargar la fuente desde Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+
+    <style>
+        /* Estilo general */
+        body {
+            margin: 0;
+            overflow: hidden;
+            font-family: 'Press Start 2P', Arial, sans-serif;
+            background: black;
+            color: white;
+        }
+
+        canvas {
+            display: block;
+        }
+
+        /* Estilo para el mensaje ¡Feliz Día! */
+        #message {
+            position: absolute;
+            top: 30%; /* Ajustado para que esté encima de la flor */
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 6vw; /* Aumento del tamaño de la fuente */
+            font-weight: bold;
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 10px 20px;
+            border-radius: 10px;
+            color: #FFD700;
+            text-shadow: 3px 3px 0px #000;
+            animation: bounce 2s infinite;
+            text-align: center;
+            display: none; /* Inicialmente oculto */
+        }
+
+        /* Animación de rebote */
+        @keyframes bounce {
+            0%, 100% {
+                transform: translate(-50%, 0);
+            }
+            50% {
+                transform: translate(-50%, -20px);
+            }
+        }
+
+        /* Estilo para el GIF */
+        #centerGif {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            cursor: pointer;
+            width: 40vw; /* Tamaño adaptado para iPhone 12 Pro */
+            height: 40vw; /* Tamaño adaptado para iPhone 12 Pro */
+        }
+
+        /* Estilo para el texto de "Click here" */
+        #clickText {
+            position: absolute;
+            top: 47%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 5vw; /* Aumento del tamaño de la fuente */
+            color: #FFD700;
+            text-shadow: 2px 2px 0px #000;
+            animation: pulse 1.5s infinite;
+            pointer-events: none;
+        }
+
+        /* Animación para el texto de "Click here" */
+        @keyframes pulse {
+            0% {
+                opacity: 0.5;
+                transform: translate(-50%, -50%) scale(1);
+            }
+            50% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1.2);
+            }
+            100% {
+                opacity: 0.5;
+                transform: translate(-50%, -50%) scale(1);
+            }
+        }
+
+        /* Estilo para la imagen florr.png */
+        #florrImage {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: none;
+            width: 40vw; /* Tamaño reducido para iPhone 12 Pro */
+            height: 40vw; /* Tamaño reducido para iPhone 12 Pro */
+            animation: fadeInAndScale 2s ease-in-out;
+        }
+
+        /* Animación para florr.png */
+        @keyframes fadeInAndScale {
+            0% {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0);
+            }
+            100% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1);
+            }
+        }
+
+        /* Estilo para el mensaje debajo de la flor (amarillo) */
+        #florrMessage {
+            position: absolute;
+            top: 60%; /* Ajustado para que esté debajo de la flor */
+            left: 50%;
+            transform: translate(-50%, 0);
+            font-size: 4vw; /* Aumento del tamaño de la fuente */
+            color: #FFD700;
+            text-shadow: 2px 2px 0px #000;
+            text-align: center;
+            display: none;
+        }
+
+        /* Estilo para el mensaje debajo del amarillo (negro) */
+        #florrMessageSmall {
+            position: absolute;
+            top: 68%; /* Ajustado para que esté debajo del mensaje amarillo */
+            left: 50%;
+            transform: translate(-50%, 0);
+            font-size: 2vw; /* Aumento del tamaño de la fuente */
+            color: black;
+            text-shadow: 1px 1px 0px #000;
+            text-align: center;
+            display: none;
+            text-transform: lowercase;
+        }
+    </style>
+</head>
+<body>
+    <div id="message">¡Feliz Día<3!</div>
+    <canvas id="gameCanvas"></canvas>
+    <img id="centerGif" src="boxi.gif" alt="GIF central">
+    <div id="clickText">Click here</div>
+
+    <!-- Imagen florr.png que aparecerá al hacer clic -->
+    <img id="florrImage" src="florr.png" alt="Imagen Florr">
+    <div id="florrMessage">Para mi hombre chamba, mua</div>
+    <!-- Mensaje adicional debajo del mensaje -->
+    <div id="florrMessageSmall">estoy orgullosa de ti, tq</div>
+
+    <script>
+        const canvas = document.getElementById("gameCanvas");
+        const ctx = canvas.getContext("2d");
+
+        // Configuración del canvas
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        // Cargar la imagen de fondo
+        const fondo = new Image();
+        fondo.src = "fondomovil.png"; // Asegúrate de tener "fondo.png" en la misma carpeta.
+
+        // Cargar la imagen del corazón
+        const corazon = new Image();
+        corazon.src = "corazon.png"; // Asegúrate de tener "corazon.png" en la misma carpeta.
+
+        // Dibujar el fondo y los corazones
+        fondo.onload = function () {
+            ctx.drawImage(fondo, 0, 0, canvas.width, canvas.height);
+
+            // Dibujar corazones más pequeños
+            const heartSize = 80; // Corazones más pequeños
+            ctx.drawImage(corazon, canvas.width * 0.2, canvas.height * 0.2, heartSize, heartSize);
+            ctx.drawImage(corazon, canvas.width * 0.7, canvas.height * 0.2, heartSize, heartSize);
+            ctx.drawImage(corazon, canvas.width * 0.2, canvas.height * 0.7, heartSize, heartSize);
+            ctx.drawImage(corazon, canvas.width * 0.7, canvas.height * 0.7, heartSize, heartSize);
+        };
+
+        // Evento para cambiar el GIF por la imagen y mostrar el mensaje
+        const centerGif = document.getElementById("centerGif");
+        const clickText = document.getElementById("clickText");
+        const florrImage = document.getElementById("florrImage");
+        const florrMessage = document.getElementById("florrMessage");
+        const florrMessageSmall = document.getElementById("florrMessageSmall");
+        const message = document.getElementById("message");
+
+        centerGif.addEventListener("click", () => {
+            centerGif.style.display = "none"; // Ocultar el GIF
+            clickText.style.display = "none"; // Ocultar el texto "Click here"
+            message.style.display = "block"; // Mostrar el mensaje "¡Feliz Día<3!"
+            florrImage.style.display = "block"; // Mostrar la imagen florr.png
+            florrMessage.style.display = "block"; // Mostrar el mensaje principal
+            florrMessageSmall.style.display = "block"; // Mostrar el mensaje pequeño
+        });
+    </script>
+</body>
+</html>
